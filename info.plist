@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>net.nandorocker.spotifyLikeThis</string>
+	<key>category</key>
+	<string>Productivity</string>
+	<key>connections</key>
+	<dict>
+		<key>F03E3896-7019-49A4-B158-3E14B63CDF90</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>E0B30850-33FF-4C06-9058-31E1E552C490</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Nando Rossi</string>
+	<key>description</key>
+	<string>Likes the currently playing track on Spotify.</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Like This Track</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>126</integer>
+				<key>script</key>
+				<string># Get the current directory where the script is located
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &amp;&amp; pwd )"
+
+# Activate the virtual environment
+source "$DIR/venv/bin/activate"
+
+# Run the Python script
+python "$DIR/like_this_track.py"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>E0B30850-33FF-4C06-9058-31E1E552C490</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>likeit</string>
+				<key>subtext</key>
+				<string>Like Currently Playing Song on Spotify</string>
+				<key>text</key>
+				<string>Like This Track</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>F03E3896-7019-49A4-B158-3E14B63CDF90</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>E0B30850-33FF-4C06-9058-31E1E552C490</key>
+		<dict>
+			<key>xpos</key>
+			<real>220</real>
+			<key>ypos</key>
+			<real>240</real>
+		</dict>
+		<key>F03E3896-7019-49A4-B158-3E14B63CDF90</key>
+		<dict>
+			<key>xpos</key>
+			<real>30</real>
+			<key>ypos</key>
+			<real>240</real>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
+	<key>webaddress</key>
+	<string>https://nan.do</string>
+</dict>
+</plist>
