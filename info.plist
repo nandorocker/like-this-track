@@ -8,6 +8,19 @@
 	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
+		<key>E0B30850-33FF-4C06-9058-31E1E552C490</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>6AF2A454-E091-43F8-9F88-43A4C350FFC1</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>F03E3896-7019-49A4-B158-3E14B63CDF90</key>
 		<array>
 			<dict>
@@ -32,27 +45,6 @@
 	<string>Like This Track</string>
 	<key>objects</key>
 	<array>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>2</integer>
-				<key>keyword</key>
-				<string>likeit</string>
-				<key>subtext</key>
-				<string>Like Currently Playing Song on Spotify</string>
-				<key>text</key>
-				<string>Like This Track</string>
-				<key>withspace</key>
-				<false/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.keyword</string>
-			<key>uid</key>
-			<string>F03E3896-7019-49A4-B158-3E14B63CDF90</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -82,11 +74,60 @@ python3 like_this_track.py</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string></string>
+				<key>title</key>
+				<string>{query}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>6AF2A454-E091-43F8-9F88-43A4C350FFC1</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>likeit</string>
+				<key>subtext</key>
+				<string>Like Currently Playing Song on Spotify</string>
+				<key>text</key>
+				<string>Like This Track</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>F03E3896-7019-49A4-B158-3E14B63CDF90</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string></string>
 	<key>uidata</key>
 	<dict>
+		<key>6AF2A454-E091-43F8-9F88-43A4C350FFC1</key>
+		<dict>
+			<key>xpos</key>
+			<real>400</real>
+			<key>ypos</key>
+			<real>240</real>
+		</dict>
 		<key>E0B30850-33FF-4C06-9058-31E1E552C490</key>
 		<dict>
 			<key>xpos</key>
@@ -104,6 +145,10 @@ python3 like_this_track.py</string>
 	</dict>
 	<key>userconfigurationconfig</key>
 	<array/>
+	<key>variablesdontexport</key>
+	<array/>
+	<key>version</key>
+	<string>1.0.0</string>
 	<key>webaddress</key>
 	<string>https://nan.do</string>
 </dict>

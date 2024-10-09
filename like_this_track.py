@@ -20,6 +20,6 @@ current_track = sp.current_playback()
 if current_track and current_track['is_playing']:
     track_id = current_track['item']['id']
     sp.current_user_saved_tracks_add([track_id])
-    print(f"Added {current_track['item']['name']} by {current_track['item']['artists'][0]['name']} to Liked Songs.")
+    print(f"Added \"{current_track['item']['name']}\" by {current_track['item']['artists'][0]['name']} to Liked Songs.")
 else:
     print("No track is currently playing.")
