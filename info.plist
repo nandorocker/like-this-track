@@ -143,7 +143,16 @@ python3 like_this_track.py</string>
 		</dict>
 	</array>
 	<key>readme</key>
-	<string></string>
+	<string>A simple small script to like the currently playing song on Spotify.
+
+## Installation
+After installing, using the terminal run:
+
+```
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+````</string>
 	<key>uidata</key>
 	<dict>
 		<key>6AF2A454-E091-43F8-9F88-43A4C350FFC1</key>
@@ -180,7 +189,7 @@ python3 like_this_track.py</string>
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>
-	<string>1.0.0</string>
+	<string>1.1</string>
 	<key>webaddress</key>
 	<string>https://nan.do</string>
 </dict>
