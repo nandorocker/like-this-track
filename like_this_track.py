@@ -61,11 +61,21 @@ if current_track and current_track['is_playing'] and current_track['item']:
         if is_liked:
             # Track is already liked, so unlike it
             sp.current_user_saved_tracks_delete([track_id])
-            print(f"Unliked: {artist_name} - \"{track_name}\"")
+            # Verify the operation
+            verification = sp.current_user_saved_tracks_contains([track_id])
+            if not verification[0]:
+                print(f"Unliked: {artist_name} - \"{track_name}\"")
+            else:
+                print(f"Failed to unlike: {artist_name} - \"{track_name}\"")
         else:
             # Track is not liked, so like it
             sp.current_user_saved_tracks_add([track_id])
-            print(f"Liked: {artist_name} - \"{track_name}\"")
+            # Verify the operation
+            verification = sp.current_user_saved_tracks_contains([track_id])
+            if verification[0]:
+                print(f"Liked: {artist_name} - \"{track_name}\"")
+            else:
+                print(f"Failed to like: {artist_name} - \"{track_name}\"")
     except Exception as e:
         print(f"Error updating track like status: {e}")
         sys.exit(1)
