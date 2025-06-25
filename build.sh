@@ -6,7 +6,7 @@
 set -e  # Exit on any error
 
 # Configuration
-PROJECT_NAME="like_this_track"
+PROJECT_NAME="like-this-track"
 WORKFLOW_NAME="Like This Track"
 BUNDLE_ID="net.nandorocker.spotifyLikeThis"
 PYTHON_MIN_VERSION="3.9"
