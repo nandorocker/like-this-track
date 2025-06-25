@@ -1,4 +1,6 @@
 venv/
+dist/
+build/
 .cache
 .DS_Store
 .env
