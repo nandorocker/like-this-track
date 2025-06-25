@@ -1,8 +1,33 @@
 import os
 import sys
-import spotipy
-from spotipy.oauth2 import SpotifyOAuth
-from dotenv import load_dotenv
+
+# Add the project root and venv site-packages to Python path for Alfred compatibility
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(script_dir)
+venv_site_packages = os.path.join(project_root, 'venv', 'lib', 'python3.11', 'site-packages')
+
+# Add paths if they exist
+if os.path.exists(venv_site_packages):
+    sys.path.insert(0, venv_site_packages)
+
+# Also check for other common Python versions
+for version in ['3.12', '3.10', '3.9']:
+    alt_path = os.path.join(project_root, 'venv', 'lib', f'python{version}', 'site-packages')
+    if os.path.exists(alt_path):
+        sys.path.insert(0, alt_path)
+        break
+
+try:
+    import spotipy
+    from spotipy.oauth2 import SpotifyOAuth
+    from dotenv import load_dotenv
+except ImportError as e:
+    print(f"Error importing required modules: {e}")
+    print("Please ensure spotipy and python-dotenv are installed:")
+    print("pip install spotipy python-dotenv")
+    print(f"Current Python path: {sys.path}")
+    print(f"Looking for packages in: {venv_site_packages}")
+    sys.exit(1)
 
 # Load environment variables from .env file
 load_dotenv()
@@ -63,7 +88,7 @@ if current_track and current_track['is_playing'] and current_track['item']:
             sp.current_user_saved_tracks_delete([track_id])
             # Verify the operation
             verification = sp.current_user_saved_tracks_contains([track_id])
-            if not verification[0]:
+            if verification and not verification[0]:
                 print(f"Unliked: {artist_name} - \"{track_name}\"")
             else:
                 print(f"Failed to unlike: {artist_name} - \"{track_name}\"")
@@ -72,7 +97,7 @@ if current_track and current_track['is_playing'] and current_track['item']:
             sp.current_user_saved_tracks_add([track_id])
             # Verify the operation
             verification = sp.current_user_saved_tracks_contains([track_id])
-            if verification[0]:
+            if verification and verification[0]:
                 print(f"Liked: {artist_name} - \"{track_name}\"")
             else:
                 print(f"Failed to like: {artist_name} - \"{track_name}\"")
