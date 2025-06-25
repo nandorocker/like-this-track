@@ -1,49 +1,51 @@
 # Like This Track - Spotify Alfred Workflow
 
-## Description
-
-An Alfred workflow that allows you to quickly like or unlike the currently playing track on Spotify with a simple keyboard shortcut or Alfred command. The workflow intelligently toggles the like status - if the track is already liked, it will be unliked, and vice versa.
+An Alfred workflow that allows you to quickly like or unlike the currently playing track on Spotify with a simple keyboard shortcut or Alfred command.
 
 ## Features
 
-- Toggle like/unlike status for the currently playing Spotify track
-- Visual feedback with track and artist information
-- Automatic authentication with Spotify
-- Supports both liked and unliked tracks
-- Clean, efficient workflow integration with Alfred
+- **Smart Toggle**: Automatically likes or unlikes the currently playing track based on its current status
+- **Visual Feedback**: Shows track and artist information with action confirmation
+- **Seamless Authentication**: Automatic OAuth flow with Spotify
+- **Alfred Integration**: Clean workflow integration with customizable hotkeys
+- **Real-time Status**: Works with any currently playing Spotify track
 
 ## Prerequisites
 
-- macOS with Alfred 4+ (with Powerpack)
-- Spotify account
-- Python 3.9+ installed
-- Spotify Developer App (for API credentials)
+- macOS with Alfred 4+ (with Powerpack license)
+- Active Spotify account
+- Python 3.9+ installed on your system
+- Spotify Developer App credentials
 
-## Spotify Developer Setup
+## Quick Start
 
-1. Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
-2. Create a new app or use an existing one
-3. Note down your `Client ID` and `Client Secret`
-4. Add `http://localhost:8080/callback` as a redirect URI in your app settings
+### 1. Spotify Developer Setup
 
-## Development Setup
+1. Visit the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
+2. Create a new app or select an existing one
+3. Copy your `Client ID` and `Client Secret`
+4. In app settings, add `http://localhost:8080/callback` as a redirect URI
 
-### 1. Clone and Setup Virtual Environment
+### 2. Project Setup
 
 ```bash
+# Clone the repository
 git clone <repository-url>
-cd like_this_track
+cd like-this-track
+
+# Create and activate virtual environment
 python3 -m venv venv
 source venv/bin/activate
+
+# Install dependencies
 pip install -r src/requirements.txt
 ```
 
-### 2. Environment Configuration
+### 3. Configuration
 
-Create a `.env` file in the project root with your Spotify credentials:
+Create a `.env` file in the project root:
 
 ```bash
-# Create .env file
 cat > .env << EOF
 CLIENT_ID=your_spotify_client_id_here
 CLIENT_SECRET=your_spotify_client_secret_here
@@ -51,114 +53,135 @@ REDIRECT_URI=http://localhost:8080/callback
 EOF
 ```
 
-### 3. Development Symlink for Alfred
+### 4. Installation
 
-To test the workflow during development, create a symlink in Alfred's workflows directory:
-
+**For Development:**
 ```bash
-# Find your Alfred preferences folder (usually ~/Library/Application Support/Alfred/Alfred.alfredpreferences/workflows)
-# Replace with your actual Alfred preferences path
+# Create symlink for live development
 ALFRED_WORKFLOWS_DIR="$HOME/Library/Application Support/Alfred/Alfred.alfredpreferences/workflows"
-
-# Create a symlink to your src folder
-ln -sf "$(pwd)/src" "$ALFRED_WORKFLOWS_DIR/like_this_track_dev"
+ln -sf "$(pwd)/src" "$ALFRED_WORKFLOWS_DIR/like-this-track_dev"
 ```
 
-### 4. Testing
+**For Production:**
+```bash
+# Copy to Alfred workflows directory
+cp -r src "$HOME/Library/Application Support/Alfred/Alfred.alfredpreferences/workflows/like-this-track"
+```
 
-Test the script directly from the command line:
+## Usage
+
+1. **Open Alfred**: Press `⌘ + Space`
+2. **Run Command**: Type `like` or use your configured hotkey
+3. **Instant Action**: The workflow toggles the like status of the current track
+4. **Feedback**: Receive notification with track info and action taken
+
+## Development
+
+### Testing
 
 ```bash
-# Activate virtual environment
+# Activate environment
 source venv/bin/activate
 
-# Test environment setup
+# Test environment configuration
 python src/debug_env.py
 
-# Test the main script (make sure Spotify is playing)
-python src/like_this_track.py
+# Test main functionality (requires active Spotify playback)
+python src/like-this-track.py
+
+# Clear authentication cache if needed
+python src/clear_cache.py
 ```
 
-## Installation for End Users
+### Project Structure
 
-### Method 1: Direct Installation
+```
+like-this-track/
+├── README.md                 # Project documentation
+├── .env                      # Environment variables (create this)
+├── src/                      # Alfred workflow source files
+│   ├── like-this-track.py   # Main workflow script
+│   ├── debug_env.py         # Environment debugging utility
+│   ├── clear_cache.py       # Authentication cache management
+│   ├── requirements.txt     # Python dependencies
+│   ├── info.plist          # Alfred workflow configuration
+│   └── icon.png            # Workflow icon and assets
+├── venv/                    # Python virtual environment (auto-created)
+└── tests/                   # Test files directory
+```
 
-1. Download or clone this repository
-2. Set up the virtual environment and install dependencies:
+## Configuration Options
 
+The workflow uses these environment variables:
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `CLIENT_ID` | Spotify app client ID | Required |
+| `CLIENT_SECRET` | Spotify app client secret | Required |
+| `REDIRECT_URI` | OAuth callback URL | `http://localhost:8080/callback` |
+
+## Troubleshooting
+
+### Authentication Issues
+
+**Problem**: "Spotify authentication failed"
 ```bash
-cd like_this_track
-python3 -m venv venv
+# Solution: Clear cache and re-authenticate
+python src/clear_cache.py
+python src/debug_env.py
+```
+
+**Problem**: "Invalid client credentials"
+- Verify `CLIENT_ID` and `CLIENT_SECRET` in `.env` file
+- Ensure redirect URI matches Spotify app settings exactly
+
+### Environment Issues
+
+**Problem**: "No module named 'spotipy'"
+```bash
+# Solution: Ensure virtual environment is activated
 source venv/bin/activate
 pip install -r src/requirements.txt
 ```
 
-3. Create your `.env` file with Spotify credentials (see Development Setup section)
+**Problem**: Python path issues in Alfred
+- Check that the virtual environment path in the script matches your Python version
+- Verify Alfred has permissions to execute the script
 
-4. Copy the `src` folder to Alfred's workflows directory:
+### Playback Issues
 
-```bash
-# Replace with your actual Alfred workflows path
-cp -r src "$HOME/Library/Application Support/Alfred/Alfred.alfredpreferences/workflows/like_this_track"
-```
-
-### Method 2: Alfred Workflow Import (Coming Soon)
-
-A packaged `.alfredworkflow` file will be available for easy import.
-
-## Usage
-
-1. Open Alfred (⌘ + Space)
-2. Type `like` or use the configured hotkey
-3. The workflow will like/unlike the currently playing track
-4. You'll see a notification with the action taken
-
-## Configuration
-
-The workflow uses these environment variables:
-- `CLIENT_ID`: Your Spotify app's client ID
-- `CLIENT_SECRET`: Your Spotify app's client secret  
-- `REDIRECT_URI`: OAuth redirect URI (should be `http://localhost:8080/callback`)
-
-## Troubleshooting
-
-### Common Issues
-
-1. **"No module named 'spotipy'" error**
-   - Ensure you've activated the virtual environment and installed requirements
-   - Check that the virtual environment path in the script matches your Python version
-
-2. **Authentication errors**
-   - Verify your Spotify app credentials in the `.env` file
-   - Ensure the redirect URI is correctly set in both `.env` and Spotify app settings
-
-3. **"No track playing" message**
-   - Make sure Spotify is actively playing a track
-   - Check that Spotify is the active audio source
+**Problem**: "No track currently playing"
+- Ensure Spotify is actively playing music (not paused)
+- Verify Spotify is the active audio source
+- Check that Spotify app is running and logged in
 
 ### Debug Tools
 
-Use the included debug script to troubleshoot:
+Use the included utilities for troubleshooting:
 
 ```bash
+# Check environment and authentication
 python src/debug_env.py
+
+# Clear authentication cache
+python src/clear_cache.py
 ```
 
-This will verify your environment variables and Spotify connection.
+## Contributing
 
-## Project Structure
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly with the debug tools
+5. Submit a pull request
 
-```
-like_this_track/
-├── README.md
-├── src/                  # Alfred workflow source
-│   ├── like_this_track.py    # Main workflow script
-│   ├── debug_env.py          # Environment debugging tool
-│   ├── clear_cache.py        # Cache management utility
-│   ├── requirements.txt      # Python dependencies
-│   ├── info.plist           # Alfred workflow configuration
-│   ├── icon.png             # Workflow icon
-│   └── *.png               # Additional workflow assets
-├── tests/                # Test files (empty)
-└── venv/                 # Virtual environment (created during setup)
-````
+## License
+
+This project is open source. Please check the repository for license details.
+
+## Support
+
+For issues and questions:
+1. Check the troubleshooting section above
+2. Run the debug tools to identify the problem
+3. Open an issue on the repository with debug output
