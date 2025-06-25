@@ -119,8 +119,66 @@ create_package() {
     # Clean previous build
     rm -rf "$BUILD_DIR"/*
     
-    # Copy source files to build directory
-    cp -r "$SRC_DIR"/* "$BUILD_DIR/"
+    # Copy source files to build directory, respecting .gitignore and excluding prefs.plist
+    log_info "Copying source files (excluding .gitignore patterns and prefs.plist)..."
+    
+    # Create exclusion patterns
+    local exclude_patterns=()
+    
+    # Always exclude prefs.plist
+    exclude_patterns+=("--exclude=prefs.plist")
+    
+    # Read .gitignore if it exists
+    if [ -f "$SCRIPT_DIR/.gitignore" ]; then
+        log_info "Found .gitignore, applying exclusion patterns..."
+        while IFS= read -r line; do
+            # Skip empty lines and comments
+            [[ -z "$line" || "$line" =~ ^[[:space:]]*# ]] && continue
+            # Remove leading/trailing whitespace
+            line=$(echo "$line" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+            [[ -n "$line" ]] && exclude_patterns+=("--exclude=$line")
+        done < "$SCRIPT_DIR/.gitignore"
+    fi
+    
+    # Use rsync for intelligent copying with exclusions
+    if command -v rsync &> /dev/null; then
+        rsync -av "${exclude_patterns[@]}" "$SRC_DIR/" "$BUILD_DIR/"
+    else
+        # Fallback: copy all then remove unwanted files
+        log_warning "rsync not found, using fallback method"
+        cp -r "$SRC_DIR"/* "$BUILD_DIR/"
+        
+        # Remove prefs.plist if it exists
+        [ -f "$BUILD_DIR/prefs.plist" ] && rm "$BUILD_DIR/prefs.plist" && log_info "Excluded: prefs.plist"
+        
+        # Apply basic .gitignore patterns (simplified)
+        if [ -f "$SCRIPT_DIR/.gitignore" ]; then
+            while IFS= read -r pattern; do
+                [[ -z "$pattern" || "$pattern" =~ ^[[:space:]]*# ]] && continue
+                pattern=$(echo "$pattern" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+                if [[ -n "$pattern" ]]; then
+                    # Simple pattern matching (not full gitignore spec)
+                    local found_files=$(find "$BUILD_DIR" -name "$pattern" 2>/dev/null || true)
+                    if [[ -n "$found_files" ]]; then
+                        find "$BUILD_DIR" -name "$pattern" -delete 2>/dev/null || true
+                        log_info "Excluded pattern: $pattern"
+                    fi
+                fi
+            done < "$SCRIPT_DIR/.gitignore"
+        fi
+    fi
+    
+    # Validate that critical workflow files weren't accidentally excluded
+    local critical_files=("like_this_track.py" "info.plist" "icon.png")
+    for file in "${critical_files[@]}"; do
+        if [ ! -f "$BUILD_DIR/$file" ]; then
+            log_error "Critical file was excluded during copy: $file"
+            log_error "Check your .gitignore patterns to ensure workflow files aren't excluded"
+            exit 1
+        fi
+    done
+    
+    log_success "Source files copied with exclusions applied"
     
     # Activate virtual environment to get the right packages
     source "$VENV_DIR/bin/activate"
