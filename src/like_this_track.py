@@ -89,20 +89,20 @@ if current_track and current_track['is_playing'] and current_track['item']:
             # Verify the operation
             verification = sp.current_user_saved_tracks_contains([track_id])
             if verification and not verification[0]:
-                print(f"Unliked: {artist_name} - \"{track_name}\"")
+                print(f"Track Unliked!|Removed: {artist_name} - \"{track_name}\"")
             else:
-                print(f"Failed to unlike: {artist_name} - \"{track_name}\"")
+                print("Unlike Failed!|Failed to unlike: {artist_name} - \"{track_name}\"")
         else:
             # Track is not liked, so like it
             sp.current_user_saved_tracks_add([track_id])
             # Verify the operation
             verification = sp.current_user_saved_tracks_contains([track_id])
             if verification and verification[0]:
-                print(f"Liked: {artist_name} - \"{track_name}\"")
+                print(f"Track Liked!|Added: {artist_name} - \"{track_name}\"")
             else:
-                print(f"Failed to like: {artist_name} - \"{track_name}\"")
+                print("Like Failed!|Failed to like: {artist_name} - \"{track_name}\"")
     except Exception as e:
-        print(f"Error updating track like status: {e}")
+        print("Error!|Error updating track like status: {e}")
         sys.exit(1)
 else:
-    print("No track is currently playing.")
+    print("No Track Playing|No track is currently playing.")
