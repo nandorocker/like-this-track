@@ -40,7 +40,7 @@
 	<key>description</key>
 	<string>Likes the currently playing track on Spotify.</string>
 	<key>disabled</key>
-	<true/>
+	<false/>
 	<key>name</key>
 	<string>Like This Track</string>
 	<key>objects</key>
