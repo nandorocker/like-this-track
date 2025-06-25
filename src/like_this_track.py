@@ -91,7 +91,7 @@ if current_track and current_track['is_playing'] and current_track['item']:
             if verification and not verification[0]:
                 print(f"Track Unliked!|Removed: {artist_name} - \"{track_name}\"")
             else:
-                print("Unlike Failed!|Failed to unlike: {artist_name} - \"{track_name}\"")
+                print(f"Unlike Failed!|Failed to unlike: {artist_name} - \"{track_name}\"")
         else:
             # Track is not liked, so like it
             sp.current_user_saved_tracks_add([track_id])
@@ -100,9 +100,9 @@ if current_track and current_track['is_playing'] and current_track['item']:
             if verification and verification[0]:
                 print(f"Track Liked!|Added: {artist_name} - \"{track_name}\"")
             else:
-                print("Like Failed!|Failed to like: {artist_name} - \"{track_name}\"")
+                print(f"Like Failed!|Failed to like: {artist_name} - \"{track_name}\"")
     except Exception as e:
-        print("Error!|Error updating track like status: {e}")
+        print(f"Error!|Error updating track like status: {e}")
         sys.exit(1)
 else:
     print("No Track Playing|No track is currently playing.")
