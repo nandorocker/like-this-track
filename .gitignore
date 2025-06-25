@@ -1,6 +1,7 @@
 venv/
 dist/
 build/
+prefs.plist
 .cache
 .DS_Store
 .env
