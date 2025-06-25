@@ -126,16 +126,15 @@ python3 like_this_track.py</string>
 		</dict>
 	</array>
 	<key>readme</key>
-	<string>A simple small script to like the currently playing song on Spotify.
+	<string># 🎵 Like This Track - Alfred Workflow
+Like the currently playing song on Spotify.
 
-## Installation
-After installing, using the terminal run:
+## Setup
+1. Create a Spotify app at https://developer.spotify.com/dashboard
+2. Configure `CLIENT_ID` and `CLIENT_SECRET` in Alfred workflow settings
+3. Install dependencies: `pip install spotipy`
 
-```
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-````</string>
+Usage: Type `likeit` in Alfred</string>
 	<key>uidata</key>
 	<dict>
 		<key>C82B5846-EC34-4B57-9E25-F93703427A61</key>
@@ -161,7 +160,50 @@ pip install -r requirements.txt
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
-	<array/>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string></string>
+				<key>placeholder</key>
+				<string>Your Spotify App Client ID</string>
+				<key>required</key>
+				<true/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Get this from your Spotify app dashboard</string>
+			<key>label</key>
+			<string>CLIENT_ID</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>CLIENT_ID</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string></string>
+				<key>placeholder</key>
+				<string>Your Spotify App Client Secret</string>
+				<key>required</key>
+				<true/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Get this from your Spotify app dashboard</string>
+			<key>label</key>
+			<string>CLIENT_SECRET</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>CLIENT_SECRET</string>
+		</dict>
+	</array>
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>

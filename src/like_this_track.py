@@ -4,49 +4,53 @@ import sys
 # Add the project root and venv site-packages to Python path for Alfred compatibility
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(script_dir)
-venv_site_packages = os.path.join(project_root, 'venv', 'lib', 'python3.11', 'site-packages')
 
-# Add paths if they exist
-if os.path.exists(venv_site_packages):
-    sys.path.insert(0, venv_site_packages)
+# Check if we're in development environment
+dev_env_path = os.path.join(project_root, '.env')
+is_dev = os.path.exists(dev_env_path)
 
-# Also check for other common Python versions
-for version in ['3.12', '3.10', '3.9']:
-    alt_path = os.path.join(project_root, 'venv', 'lib', f'python{version}', 'site-packages')
-    if os.path.exists(alt_path):
-        sys.path.insert(0, alt_path)
-        break
+if is_dev:
+    # Development environment - use .env file
+    venv_site_packages = os.path.join(project_root, 'venv', 'lib', 'python3.11', 'site-packages')
+    if os.path.exists(venv_site_packages):
+        sys.path.insert(0, venv_site_packages)
+    
+    # Check for other Python versions
+    for version in ['3.12', '3.10', '3.9']:
+        alt_path = os.path.join(project_root, 'venv', 'lib', f'python{version}', 'site-packages')
+        if os.path.exists(alt_path):
+            sys.path.insert(0, alt_path)
+            break
 
 try:
     import spotipy
     from spotipy.oauth2 import SpotifyOAuth
-    from dotenv import load_dotenv
+    if is_dev:
+        from dotenv import load_dotenv
+        load_dotenv(dev_env_path)
 except ImportError as e:
     print(f"Error importing required modules: {e}")
-    print("Please ensure spotipy and python-dotenv are installed:")
-    print("pip install spotipy python-dotenv")
-    print(f"Current Python path: {sys.path}")
-    print(f"Looking for packages in: {venv_site_packages}")
+    print("Please ensure spotipy is installed")
     sys.exit(1)
 
-# Load environment variables from .env file
-load_dotenv()
+# Get credentials from environment (Alfred variables or .env)
+client_id = os.getenv('CLIENT_ID')
+client_secret = os.getenv('CLIENT_SECRET')
+redirect_uri = os.getenv('REDIRECT_URI', 'http://localhost:8888/callback')
 
-# Check if required environment variables are set
-required_vars = ['CLIENT_ID', 'CLIENT_SECRET', 'REDIRECT_URI']
-for var in required_vars:
-    if not os.getenv(var):
-        print(f"Error: {var} not found in environment variables")
-        sys.exit(1)
+# Check if credentials are available
+if not client_id or not client_secret:
+    print("Missing Credentials|Please configure CLIENT_ID and CLIENT_SECRET in Alfred workflow settings")
+    sys.exit(1)
 
 # Scope needed to modify and read the "Liked Songs" playlist
 SCOPE = 'user-library-modify user-read-playback-state user-library-read'
 
 # Create auth manager with proper cache handling
 auth_manager = SpotifyOAuth(
-    client_id=os.getenv('CLIENT_ID'),
-    client_secret=os.getenv('CLIENT_SECRET'),
-    redirect_uri=os.getenv('REDIRECT_URI'),
+    client_id=client_id,
+    client_secret=client_secret,
+    redirect_uri=redirect_uri,
     scope=SCOPE,
     cache_path=".spotify_cache",
     show_dialog=False,
