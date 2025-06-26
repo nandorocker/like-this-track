@@ -1,48 +1,19 @@
-# 🎵 Like This Track - Alfred Workflow
+## Setup
 
-Instantly like or unlike the currently playing song on Spotify with a simple Alfred command.
+Create a Spotify app:
 
-## 🚀 Installation
+1. Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
+2. Click "Create an App"
+3. Copy your `Client ID` and `Client Secret`
+4. Add `http://localhost:8888/callback` as a redirect URI
 
-1. **Create a Spotify App**
-   - Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
-   - Click "Create an App"
-   - Add `http://localhost:8888/callback` as a Redirect URI
+Configure the Workflow's Configuration with your Spotify credentials.
 
-2. **Install & Configure the Workflow**
-   - Download & run the `like-this-track.workflow` file
-   - Enter your `CLIENT_ID` and `CLIENT_SECRET` from step 1
-   - Press "Install"
+## Usage
 
-3. **First Run**
-   - Type `likeit` in Alfred
-   - Your browser will open for Spotify authorization
-   - Grant permissions and you're ready to go!
+Toggle the like status of the currently playing Spotify track via the `likeit` keyword.
 
-## 💡 Usage
+![Like this track workflow](images/likeit.png)
 
-Type `likeit` in Alfred to toggle like status of the currently playing track.
+* <kbd>↩</kbd> Toggle like status of current track.
 
-- If the track isn't liked → it gets added to your Liked Songs
-- If the track is already liked → it gets removed from your Liked Songs
-
-## 🔧 Troubleshooting
-
-**"Missing Credentials" error**
-- Make sure you've configured `CLIENT_ID` and `CLIENT_SECRET` in the workflow settings
-
-**"Error authenticating" message**
-- Verify your Client ID and Secret are correct
-- Check that `http://localhost:8888/callback` is added to your Spotify app's Redirect URIs
-
-**"No Track Playing" message**
-- Make sure Spotify is open and playing a track
-- The track must be actively playing (not paused)
-
-**Authorization issues**
-- Delete the `.spotify_cache` file in the workflow directory and try again
-- Re-authorize by running `likeit` again
-
-## Credits
-- Workflow by [Nando Rossi](https://nan.do) & [Robots]([https://](https://github.com/features/copilot))
-- [Notificator](https://github.com/vitorgalvao/notificator) by Vitor Galvão
