@@ -45,3 +45,4 @@ Type `likeit` in Alfred to toggle like status of the currently playing track.
 
 ## Credits
 - Workflow by [Nando Rossi](https://nan.do) & [Robots]([https://](https://github.com/features/copilot))
+- [Notificator](https://github.com/vitorgalvao/notificator) by Vitor Galvão

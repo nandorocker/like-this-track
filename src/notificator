@@ -17,7 +17,7 @@ function make_icns {
   # Setup
   local -r file="${1}"
   local -r tmp_dir="$(/usr/bin/mktemp -d)"
-  local -r icon="${tmp_dir}/icon.icns"
+  local -r icns_file="${tmp_dir}/icon.icns"
   local -r iconset="${tmp_dir}/icon.iconset"
   /bin/mkdir "${iconset}"
 
@@ -29,11 +29,11 @@ function make_icns {
   done
 
   # Convert to icns
-  /usr/bin/iconutil --convert icns "${iconset}" --output "${icon}"
+  /usr/bin/iconutil --convert icns "${iconset}" --output "${icns_file}"
 
   # Clean up and return path to icns
   /bin/rm -rf "${iconset}"
-  echo "${icon}"
+  echo "${icns_file}"
 }
 
 function usage {
