@@ -1,3 +1,7 @@
+# Like This Track - Spotify Alfred Workflow
+
+Quickly like or unlike the currently playing track on Spotify with a simple keyword.
+
 ## Setup
 
 Create a Spotify app:
